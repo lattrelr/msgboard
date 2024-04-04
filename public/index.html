@@ -16,7 +16,8 @@
             <span class="close" @click="closeModal">&times;</span>
             <div>
                 <h2>Create new post</h2>
-                <p>Input boxes here</p>
+                <input v-model="newTitle" /><br/>
+                <input v-model="newContent" /><br/>
                 <button @click="submitPost">Submit</button>
             </div>
         </div>

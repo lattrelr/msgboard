@@ -7,6 +7,8 @@ export const main = {
       showModal: false,
       showPosts: true,
       showCurrent: false,
+      newTitle: "",
+      newContent: "",
     }
   },
   async mounted() {
@@ -17,12 +19,15 @@ export const main = {
     selectCreate() {
       this.showModal = true;
     },
+    // TODO post create in new component for modal!
     async submitPost() {
       let response = await axios.post("/api/posts", {
-        title: "NEW post title",
-        content: "NEW post content"
+        title: this.newTitle,
+        content: this.newContent
       }, {});
       this.showModal = false;
+      this.newTitle = "";
+      this.newContent = "";
       response = await axios.get("api/posts");
       this.posts = response.data;
     },
