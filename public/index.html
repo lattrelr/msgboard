@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="style.css">
+
+<div id="app" v-cloak>
+    <button @click="createPost">Create</button>
+    <div v-show="showPosts" v-for="post in posts" :key="post.id">
+        <h2 :data-post=post.id @click="selectPost">{{ post.id }} {{ post.title }}</h2>
+    </div>
+    <div v-show="showCurrent" @click="selectCurrent">
+        <h2>{{ selectedTitle }}</h2>
+        <p>{{ selectedContent }}</p>
+    </div>
+
+    <!-- Create Modal -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Create Modal</p>
+        </div>
+    </div>
+
+    <!-- Create Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Post View Modal</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="module">
+    import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    import { main } from './main.js'
+    const app = createApp(main)
+    app.mount("#app");
+</script>
