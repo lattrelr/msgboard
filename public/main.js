@@ -4,6 +4,7 @@ export const main = {
       posts: [],
       selectedTitle: "",
       selectedContent: "",
+      showModal: false,
       showPosts: true,
       showCurrent: false,
     }
@@ -13,8 +14,17 @@ export const main = {
     this.posts = response.data
   },
   methods: {
-    createPost() {
-      
+    selectCreate() {
+      this.showModal = true;
+    },
+    async submitPost() {
+      let response = await axios.post("/api/posts", {
+        title: "NEW post title",
+        content: "NEW post content"
+      }, {});
+      this.showModal = false;
+      response = await axios.get("api/posts");
+      this.posts = response.data;
     },
     selectPost(event) {
       this.showPosts = false;
@@ -26,17 +36,9 @@ export const main = {
     selectCurrent() {
       this.showCurrent = false;
       this.showPosts = true;
+    },
+    closeModal() {
+      this.showModal = false;
     }
   },
 }
-
-/*
-const checkbox = {
-  data() {
-    return { checked: false, title: 'Check me' }
-  },
-  methods: {
-    check() { this.checked = !this.checked; }
-  }
-}
-*/

@@ -7,9 +7,11 @@ const port = 3000
 
 const postsRouter = require("./routes/posts")
 
-app.use("/api/posts", postsRouter)
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
+
+app.use("/api/posts", postsRouter)
 
 app.use((req, res, next) => {
     res.send("ERROR")

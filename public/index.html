@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="style.css">
 
 <div id="app" v-cloak>
-    <button @click="createPost">Create</button>
+    <button @click="selectCreate">Create</button>
     <div v-show="showPosts" v-for="post in posts" :key="post.id">
         <h2 :data-post=post.id @click="selectPost">{{ post.id }} {{ post.title }}</h2>
     </div>
@@ -10,19 +10,15 @@
         <p>{{ selectedContent }}</p>
     </div>
 
-    <!-- Create Modal -->
-    <div id="createModal" class="modal">
+    <!-- Modal for view and create -->
+    <div id="createModal" class="modal" v-show="showModal">
         <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Create Modal</p>
-        </div>
-    </div>
-
-    <!-- Create Modal -->
-    <div id="postModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Post View Modal</p>
+            <span class="close" @click="closeModal">&times;</span>
+            <div>
+                <h2>Create new post</h2>
+                <p>Input boxes here</p>
+                <button @click="submitPost">Submit</button>
+            </div>
         </div>
     </div>
 </div>
