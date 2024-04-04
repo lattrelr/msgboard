@@ -9,25 +9,30 @@
         <h2>{{ selectedTitle }}</h2>
         <p>{{ selectedContent }}</p>
     </div>
+    <modal v-show="showModal" @close-modal="closeModal" @submit-post="submitPost"></modal>
+</div>
 
+<script type="vue-template" id="modal">
     <!-- Modal for view and create -->
-    <div id="createModal" class="modal" v-show="showModal">
+    <div id="createModal" class="modal">
         <div class="modal-content">
             <span class="close" @click="closeModal">&times;</span>
             <div>
                 <h2>Create new post</h2>
-                <input v-model="newTitle" /><br/>
-                <input v-model="newContent" /><br/>
+                <input v-model="form.newTitle" /><br/>
+                <input v-model="form.newContent" /><br/>
                 <button @click="submitPost">Submit</button>
             </div>
         </div>
     </div>
-</div>
+</script>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="module">
     import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
     import { main } from './main.js'
+    import { modal } from './modal.js'
     const app = createApp(main)
+    app.component('Modal', modal);
     app.mount("#app");
 </script>
