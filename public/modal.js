@@ -9,15 +9,19 @@ export const modal = {
     },
     methods: {
       async submitPost() {
-        let response = await axios.post("/api/posts", {
-          title: this.form.newTitle,
-          content: this.form.newContent
-        }, {});
-        this.form.newTitle = "";
-        this.form.newContent = "";
-        this.$emit('submitPost');
+        if (this.form.newTitle != "" && this.form.newContent != "") {
+          let response = await axios.post("/api/posts", {
+            title: this.form.newTitle,
+            content: this.form.newContent
+          }, {});
+          this.form.newTitle = "";
+          this.form.newContent = "";
+          this.$emit('submitPost');
+        }
       },
       async closeModal() {
+        this.form.newTitle = "";
+        this.form.newContent = "";
         this.$emit('closeModal');
       }
     },

@@ -7,6 +7,12 @@ export const main = {
       showModal: false,
       showPosts: true,
       showCurrent: false,
+      loggedIn: true,
+      currentUser: "ryan",
+      form: {
+        username: "",
+        password: "",
+      },
     }
   },
   async mounted() {
@@ -27,7 +33,7 @@ export const main = {
     },
     selectPost(event) {
       this.showPosts = false;
-      let currentPost = this.posts[event.target.dataset.post];
+      let currentPost = this.posts[event.currentTarget.dataset.post];
       this.selectedTitle = currentPost.title;
       this.selectedContent = currentPost.content;
       this.showCurrent = true;

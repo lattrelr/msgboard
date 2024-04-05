@@ -1,13 +1,31 @@
 <link rel="stylesheet" href="style.css">
 
 <div id="app" v-cloak>
-    <button @click="selectCreate">Create</button>
-    <div v-show="showPosts" v-for="post in posts" :key="post.id">
-        <h2 :data-post=post.id @click="selectPost">{{ post.id }} {{ post.title }}</h2>
+    <div v-show="loggedIn">
+        <button class="topbutton" @click="selectCreate">Create</button>
+        <span id="currentuser">Logged in as {{ currentUser }}</span>
+        <button class="topbutton">Sign out</button>
     </div>
-    <div v-show="showCurrent" @click="selectCurrent">
-        <h2>{{ selectedTitle }}</h2>
-        <p>{{ selectedContent }}</p>
+    <div v-show="!loggedIn">
+        <span id="userinput">
+            <span>Username </span>
+            <input v-model="form.username" />
+            <span> Password </span>
+            <input v-model="form.password" />
+        </span>
+        <button class="topbutton">Login</button>
+    </div>
+    <div id="contentbox">
+        <div v-show="showPosts" v-for="post in posts" :key="post.id" class="postlistitem" :data-post=post.id @click="selectPost">
+            <span class="postlistuser">by {{ post.author }}</span>
+            <span class="postlistdate">on {{ post.date }}</span>
+            <br/>
+            <h2 class="postlisttitle">{{ post.title }}</h2>
+        </div>
+        <div id="currentPost" v-show="showCurrent" @click="selectCurrent">
+            <h2>{{ selectedTitle }}</h2>
+            <p style="white-space: pre">{{ selectedContent }}</p>
+        </div>
     </div>
     <modal v-show="showModal" @close-modal="closeModal" @submit-post="submitPost"></modal>
 </div>
@@ -19,8 +37,8 @@
             <span class="close" @click="closeModal">&times;</span>
             <div>
                 <h2>Create new post</h2>
-                <input v-model="form.newTitle" /><br/>
-                <input v-model="form.newContent" /><br/>
+                <input id="postCreateTitle" v-model="form.newTitle"/>
+                <textarea id="postCreateBody" v-model="form.newContent"/>
                 <button @click="submitPost">Submit</button>
             </div>
         </div>
