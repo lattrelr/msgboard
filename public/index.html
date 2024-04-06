@@ -33,19 +33,21 @@
 </script>
 
 <script type="vue-template" id="auth">
-    <div v-show="loggedIn">
-        <button class="topbutton" @click="selectCreate">Create</button>
-        <span id="currentuser">Logged in as {{ currentUser }}</span>
-        <button class="topbutton" @click="onLogout">Sign out</button>
-    </div>
-    <div v-show="!loggedIn">
-        <span id="userinput">
-            <span>Username </span>
-            <input v-model="form.username" />
-            <span> Password </span>
-            <input v-model="form.password" />
-        </span>
-        <button class="topbutton" @click="onLogin">Login</button>
+    <div v-show="authLoaded">
+        <div v-show="loggedIn">
+            <button class="topbutton" @click="selectCreate">Create</button>
+            <span id="currentuser">Logged in as {{ currentUser }}</span>
+            <button class="topbutton" @click="onLogout">Sign out</button>
+        </div>
+        <div v-show="!loggedIn">
+            <span id="userinput">
+                <span>Username </span>
+                <input v-model="form.username" />
+                <span> Password </span>
+                <input v-model="form.password" />
+            </span>
+            <button class="topbutton" @click="onLogin">Login</button>
+        </div>
     </div>
 </script>
 

@@ -4,8 +4,7 @@ const authjwt = {};
 const privateKey = "1cd83fa16555147ab7f4923937107f57b609cb47";
 
 authjwt.verifyToken = (req, res, next) => {
-    let token = req.headers["x-access-token"];
-  
+    const token = req.cookies["SessionID"];
     if (!token) {
         return res.status(403).json({
             message: "No token provided!"

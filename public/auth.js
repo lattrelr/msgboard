@@ -1,15 +1,9 @@
-function setAuthTokenHeader() {
-    let userinfo = JSON.parse(localStorage.getItem('user'));
-    if (userinfo && userinfo.accessToken) {
-        axios.defaults.headers.common['x-access-token'] = userinfo.accessToken;
-    }
-};
-
 export const auth = {
     emits: ['selectCreate'],
     data() {
       return {
         loggedIn: false,
+        authLoaded: false,
         currentUser: "",
         form: {
           username: "",
@@ -18,12 +12,15 @@ export const auth = {
       }
     },
     async mounted() {
-        let userinfo = JSON.parse(localStorage.getItem('user'));
-        if (userinfo != null) {
-          this.loggedIn = true;
-          this.currentUser = userinfo.username;
+        try {
+            let response = await axios.get("/api/users/active");
+            this.currentUser = response.data.username;
+            this.loggedIn = true;
+        } catch(error) {
+            this.currentUser = "";
+            this.loggedIn = false;
         }
-        setAuthTokenHeader();
+        this.authLoaded = true;
     },
     methods: {
         selectCreate() {
@@ -37,16 +34,14 @@ export const auth = {
               }, {});
               this.form.username = "";
               this.form.password = "";
-              localStorage.setItem('user', JSON.stringify(response.data));
               this.currentUser = response.data.username;
               this.loggedIn = true;
-              setAuthTokenHeader();
             } catch(error) {
               console.log("Unauthorized");
             }
         },
-        onLogout() {
-            localStorage.removeItem('user');
+        async onLogout() {
+            let response = await axios.get("/api/users/logout");
             this.loggedIn = false;
             this.currentUser = "";
         }
