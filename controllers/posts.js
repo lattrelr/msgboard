@@ -1,4 +1,5 @@
 const controller = {};
+const users = require ("./users");
 
 let posts = [
     {
@@ -30,11 +31,14 @@ controller.getIndex = (req, res) => {
 
 controller.createItem = (req, res) => {
     // TODO make sure this content exists...
+
+    let username = users.getUserNameById(req.userId);
+
     posts.push({
         id: posts.length,
         title: req.body.title,
         content: req.body.content,
-        author: "ryan",
+        author: username,
         date: new Date().toISOString().slice(0, 10)
     });
 

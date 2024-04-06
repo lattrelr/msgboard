@@ -1,20 +1,7 @@
 <link rel="stylesheet" href="style.css">
 
 <div id="app" v-cloak>
-    <div v-show="loggedIn">
-        <button class="topbutton" @click="selectCreate">Create</button>
-        <span id="currentuser">Logged in as {{ currentUser }}</span>
-        <button class="topbutton">Sign out</button>
-    </div>
-    <div v-show="!loggedIn">
-        <span id="userinput">
-            <span>Username </span>
-            <input v-model="form.username" />
-            <span> Password </span>
-            <input v-model="form.password" />
-        </span>
-        <button class="topbutton">Login</button>
-    </div>
+    <auth @select-create="openModal"></auth>
     <div id="contentbox">
         <div v-show="showPosts" v-for="post in posts" :key="post.id" class="postlistitem" :data-post=post.id @click="selectPost">
             <span class="postlistuser">by {{ post.author }}</span>
@@ -45,12 +32,31 @@
     </div>
 </script>
 
+<script type="vue-template" id="auth">
+    <div v-show="loggedIn">
+        <button class="topbutton" @click="selectCreate">Create</button>
+        <span id="currentuser">Logged in as {{ currentUser }}</span>
+        <button class="topbutton" @click="onLogout">Sign out</button>
+    </div>
+    <div v-show="!loggedIn">
+        <span id="userinput">
+            <span>Username </span>
+            <input v-model="form.username" />
+            <span> Password </span>
+            <input v-model="form.password" />
+        </span>
+        <button class="topbutton" @click="onLogin">Login</button>
+    </div>
+</script>
+
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="module">
     import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
     import { main } from './main.js'
     import { modal } from './modal.js'
+    import { auth } from './auth.js'
     const app = createApp(main)
     app.component('Modal', modal);
+    app.component('Auth', auth);
     app.mount("#app");
 </script>

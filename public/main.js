@@ -7,12 +7,6 @@ export const main = {
       showModal: false,
       showPosts: true,
       showCurrent: false,
-      loggedIn: true,
-      currentUser: "ryan",
-      form: {
-        username: "",
-        password: "",
-      },
     }
   },
   async mounted() {
@@ -20,7 +14,7 @@ export const main = {
     this.posts = response.data
   },
   methods: {
-    selectCreate() {
+    openModal() {
       this.showModal = true;
     },
     closeModal() {
