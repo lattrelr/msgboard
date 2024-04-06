@@ -9,9 +9,14 @@
             <br/>
             <h2 class="postlisttitle">{{ post.title }}</h2>
         </div>
-        <div id="currentPost" v-show="showCurrent" @click="selectCurrent">
-            <h2>{{ selectedTitle }}</h2>
-            <p style="white-space: pre">{{ selectedContent }}</p>
+        <div id="currentPost" v-show="showCurrent">
+            <div id="backToList" @click="selectCurrent">&larr;</div>
+            <span class="postlistuser">by {{ selectedPost.author }}</span>
+            <span class="postlistdate">on {{ selectedPost.date }}</span>
+            <div id="currentPostBody">
+                <h2>{{ selectedPost.title }}</h2>
+                <p style="white-space: pre">{{ selectedPost.content }}</p>
+            </div>
         </div>
     </div>
     <modal v-show="showModal" @close-modal="closeModal">

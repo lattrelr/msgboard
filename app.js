@@ -1,10 +1,9 @@
 const express = require("express");
 const cookieParser = require('cookie-parser');
+//const expressValidator = require('express-validator');
+//const asyncHandler = require("express-async-handler");
 const app = express();
 const port = 3000;
-
-// Express validator for input
-// express-async-handler for controller errors
 
 const postsRouter = require("./routes/posts");
 const usersRouter = require("./routes/users");
@@ -12,8 +11,8 @@ const usersRouter = require("./routes/users");
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static("public"));
 
+app.use(express.static("public"));
 app.use("/api/posts", postsRouter);
 app.use("/api/users", usersRouter);
 

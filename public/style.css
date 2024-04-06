@@ -21,10 +21,6 @@ body {
   background-color: whitesmoke;
 }
 
-#currentPost {
-  padding:1%;
-}
-
 #currentuser {
   display:inline-block;
   text-align:right;
@@ -137,4 +133,21 @@ textarea {
 .signupdesc {
   display:inline-block;
   width:10%;
+}
+
+#backToList {
+  width:99%;
+  font-size:30px;
+  padding-left:1%;
+  border-bottom:1px solid #888;
+}
+
+#backToList:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+#currentPostBody {
+  padding-left:1%;
+  padding-right:1%;
 }

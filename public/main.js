@@ -2,8 +2,12 @@ export const main = {
   data() {
     return {
       posts: [],
-      selectedTitle: "",
-      selectedContent: "",
+      selectedPost: {
+        title: "",
+        content: "",
+        author: "",
+        date: "",
+      },
       showModal: false,
       showCreate: false,
       showNewUser: false,
@@ -43,8 +47,7 @@ export const main = {
     selectPost(event) {
       this.showPosts = false;
       let currentPost = this.posts[event.currentTarget.dataset.post];
-      this.selectedTitle = currentPost.title;
-      this.selectedContent = currentPost.content;
+      this.selectedPost = currentPost;
       this.showCurrent = true;
     },
     selectCurrent() {
