@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="style.css">
 
 <div id="app" v-cloak>
-    <auth @select-create="openModal"></auth>
+    <auth @open-modal-create="openModalCreatePost" @open-modal-new-user="openModalNewUser"></auth>
     <div id="contentbox">
         <div v-show="showPosts" v-for="post in posts" :key="post.id" class="postlistitem" :data-post=post.id @click="selectPost">
             <span class="postlistuser">by {{ post.author }}</span>
@@ -14,7 +14,10 @@
             <p style="white-space: pre">{{ selectedContent }}</p>
         </div>
     </div>
-    <modal v-show="showModal" @close-modal="closeModal" @submit-post="submitPost"></modal>
+    <modal v-show="showModal" @close-modal="closeModal">
+        <create-post v-if="showCreate" @submit-post="submitPost" :show-modal="showModal"></create-post>
+        <sign-up v-else-if="showNewUser" @submit-user="submitUser" :show-modal="showModal"></sign-up>
+    </modal>
 </div>
 
 <script type="vue-template" id="modal">
@@ -23,23 +26,35 @@
         <div class="modal-content">
             <span class="close" @click="closeModal">&times;</span>
             <div>
-                <h2>Create new post</h2>
-                <input id="postCreateTitle" v-model="form.newTitle"/>
-                <textarea id="postCreateBody" v-model="form.newContent"/>
-                <button @click="submitPost">Submit</button>
+                <slot></slot>
             </div>
         </div>
     </div>
 </script>
 
+<script type="vue-template" id="createpost">
+    <h2>Create new post</h2>
+    <input id="postCreateTitle" v-model="form.newTitle"/>
+    <textarea id="postCreateBody" v-model="form.newContent"/>
+    <button @click="submitPost">Submit</button>
+</script>
+
+<script type="vue-template" id="signup">
+    <h2>New user</h2>
+    <span class="signupdesc">Username</span><input class="signupbox" v-model="form.username"/><br/>
+    <span class="signupdesc">Password</span><input class="signupbox" v-model="form.password"/><br/>
+    <button @click="submitUser">Submit</button>
+</script>
+
 <script type="vue-template" id="auth">
     <div v-show="authLoaded">
         <div v-show="loggedIn">
-            <button class="topbutton" @click="selectCreate">Create</button>
+            <button class="topbutton" @click="openModalCreate">Create</button>
             <span id="currentuser">Logged in as {{ currentUser }}</span>
             <button class="topbutton" @click="onLogout">Sign out</button>
         </div>
         <div v-show="!loggedIn">
+            <button class="topbutton" @click="openModalNewUser">Sign Up</button>
             <span id="userinput">
                 <span>Username </span>
                 <input v-model="form.username" />
@@ -56,9 +71,13 @@
     import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
     import { main } from './main.js'
     import { modal } from './modal.js'
+    import { createpost } from './createpost.js'
+    import { signup } from './signup.js'
     import { auth } from './auth.js'
     const app = createApp(main)
     app.component('Modal', modal);
     app.component('Auth', auth);
+    app.component('CreatePost', createpost);
+    app.component('SignUp', signup);
     app.mount("#app");
 </script>

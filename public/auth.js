@@ -1,5 +1,5 @@
 export const auth = {
-    emits: ['selectCreate'],
+    emits: ['openModalCreate', 'openModalNewUser'],
     data() {
       return {
         loggedIn: false,
@@ -23,8 +23,11 @@ export const auth = {
         this.authLoaded = true;
     },
     methods: {
-        selectCreate() {
-            this.$emit('selectCreate');
+        openModalCreate() {
+            this.$emit('openModalCreate');
+        },
+        openModalNewUser() {
+            this.$emit('openModalNewUser');
         },
         async onLogin() {
             try {

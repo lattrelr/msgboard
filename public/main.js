@@ -5,8 +5,11 @@ export const main = {
       selectedTitle: "",
       selectedContent: "",
       showModal: false,
+      showCreate: false,
+      showNewUser: false,
       showPosts: true,
       showCurrent: false,
+      count: 0,
     }
   },
   async mounted() {
@@ -14,16 +17,28 @@ export const main = {
     this.posts = response.data
   },
   methods: {
-    openModal() {
+    openModalCreatePost() {
+      this.showCreate = true;
+      this.showModal = true;
+    },
+    openModalNewUser() {
+      this.showNewUser = true;
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
+      this.showNewUser = false;
+      this.showCreate = false;
     },
     async submitPost() {
       this.showModal = false;
+      this.showCreate = false;
       const response = await axios.get('api/posts')
       this.posts = response.data
+    },
+    submitUser() {
+      this.showModal = false;
+      this.showNewUser = false;
     },
     selectPost(event) {
       this.showPosts = false;

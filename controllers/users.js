@@ -35,7 +35,7 @@ async function hashPassword(password) {
     });
 }
 
-controller.login = (req, res) => {
+controller.login = async (req, res) => {
     for(let i=0; i < users.length; i++) {
         if (users[i].name == req.body.username) {
             if (bcrypt.compareSync(req.body.password, users[i].hash)) {
@@ -48,10 +48,10 @@ controller.login = (req, res) => {
                     secure: false,
                     sameSite: "Strict",
                 };
-
+            
                 res.cookie("SessionID", token, options);
                 return res.status(200).json({
-                    username: users[i].name,
+                    username: controller.getUserNameById(users[i].id),
                 });
             }
         }
@@ -63,18 +63,27 @@ controller.login = (req, res) => {
     });
 };
 
+controller.signup = async (req, res) => {
+    const hashedpw = await hashPassword(req.body.password);
+    users.push({
+        id: users.length,
+        name: req.body.username,
+        hash: hashedpw
+    });
+
+    console.log("Created user");
+
+    return res.json({
+        message: "User create OK"
+    });
+};
+
 controller.getActiveUser = (req, res) => {
     const userName = controller.getUserNameById(req.userId);
     return res.status(200).json({
         username: userName
     });
 }
-
-controller.getIndex = async (req, res) => {
-    const hash = await hashPassword("password2")
-    users[0].hash = hash;
-    res.json(users)
-};
 
 controller.logout = (req, res) => {
     res.clearCookie("SessionID");
