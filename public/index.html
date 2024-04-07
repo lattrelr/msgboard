@@ -9,15 +9,7 @@
             <br/>
             <h2 class="postlisttitle">{{ post.title }}</h2>
         </div>
-        <div id="currentPost" v-show="showCurrent">
-            <div id="backToList" @click="selectCurrent">&larr;</div>
-            <span class="postlistuser">by {{ selectedPost.author.username }}</span>
-            <span class="postlistdate">on {{ selectedPost.date.slice(0, 10) }}</span>
-            <div id="currentPostBody">
-                <h2>{{ selectedPost.title }}</h2>
-                <p style="white-space: pre">{{ selectedPost.content }}</p>
-            </div>
-        </div>
+        <current-post v-show="showCurrent" @close-current="closeCurrent" @open-current="openCurrent" :current-post-id="currentPostId"></current-post>
     </div>
     <modal v-show="showModal" @close-modal="closeModal">
         <create-post v-if="showCreate" @submit-post="submitPost" :show-modal="showModal"></create-post>
@@ -71,6 +63,18 @@
     </div>
 </script>
 
+<script type="vue-template" id="currentpost">
+    <div>
+        <div id="backToList" @click="closeCurrent">&larr;</div>
+        <span class="postlistuser">by {{ selectedPost.author.username }}</span>
+        <span class="postlistdate">on {{ selectedPost.date.slice(0, 10) }}</span>
+        <div id="currentPostBody">
+            <h2>{{ selectedPost.title }}</h2>
+            <p style="white-space: pre">{{ selectedPost.content }}</p>
+        </div>
+    </div>
+</script>
+
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="module">
     import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
@@ -79,10 +83,12 @@
     import { createpost } from './createpost.js'
     import { signup } from './signup.js'
     import { auth } from './auth.js'
+    import { currentpost } from './currentpost.js'
     const app = createApp(main)
     app.component('Modal', modal);
     app.component('Auth', auth);
     app.component('CreatePost', createpost);
     app.component('SignUp', signup);
+    app.component('CurrentPost', currentpost);
     app.mount("#app");
 </script>

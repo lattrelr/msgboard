@@ -2,18 +2,12 @@ export const main = {
   data() {
     return {
       posts: [],
-      selectedPost: {
-        title: "aaa",
-        content: "bbbccc",
-        author: "ccc",
-        date: "ddd",
-      },
       showModal: false,
       showCreate: false,
       showNewUser: false,
       showPosts: true,
       showCurrent: false,
-      count: 0,
+      currentPostId: "",
     }
   },
   async mounted() {
@@ -45,17 +39,16 @@ export const main = {
       this.showNewUser = false;
     },
     async selectPost(event) {
-      this.showPosts = false;
-      const response = await axios.get(`api/posts/${event.currentTarget.dataset.post}`);
-      this.selectedPost.title = response.data.title;
-      this.selectedPost.content = response.data.content;
-      this.selectedPost.author = response.data.author;
-      this.selectedPost.date = response.data.date;
-      this.showCurrent = true;
+      this.currentPostId = event.currentTarget.dataset.post;
+      
     },
-    selectCurrent() {
+    closeCurrent() {
       this.showCurrent = false;
       this.showPosts = true;
     },
+    openCurrent() {
+      this.showPosts = false;
+      this.showCurrent = true;
+    }
   },
 }
