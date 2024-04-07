@@ -40,10 +40,11 @@ export const main = {
     },
     async selectPost(event) {
       this.currentPostId = event.currentTarget.dataset.post;
-      
+      console.log( `Opening ${this.currentPostId}`);
     },
     closeCurrent() {
       this.showCurrent = false;
+      this.currentPostId = "";
       this.showPosts = true;
     },
     openCurrent() {

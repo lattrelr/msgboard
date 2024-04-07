@@ -5,3 +5,29 @@
 // array of replies to this reply
 // keep track of tree level to know what schema parent is?
 // do I need parent? Or just maybe user of parent (to notify on reply)? Do I need that even?  One way may be fine.
+
+const { Schema, model } = require('mongoose')
+
+const ReplySchema = new Schema({
+    content: {
+        type: String,
+        required: true,
+    },
+    author: {
+        type: Schema.Types.ObjectId, 
+        ref: "user",
+        required: true,
+    },
+    replies: {
+        type: [Schema.Types.ObjectId],
+        ref: "reply"
+    },
+    date: {
+        type: Date,
+        default: Date.now(),
+    },
+});
+
+const Reply = model('reply', ReplySchema);
+
+module.exports = Reply

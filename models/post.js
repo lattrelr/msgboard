@@ -18,6 +18,10 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now(),
     },
+    replies: {
+        type: [Schema.Types.ObjectId],
+        ref: "reply"
+    },
 });
 
 const Post = model('post', PostSchema);

@@ -17,8 +17,8 @@ body {
   border-top:1px solid #888;
   border-left:1px solid #888;
   border-right:1px solid #888;
-  height:100%;
-  background-color: whitesmoke;
+  /*height:100%;*/
+  background-color: white;
 }
 
 #currentuser {
@@ -41,6 +41,10 @@ body {
 
 .postlistitem {
   border-bottom:1px solid #888;
+  padding: 1%;
+  padding-left:2%;
+  padding-right:2%;
+  background-color: whitesmoke;
 }
 
 .postlistitem:hover {
@@ -49,23 +53,18 @@ body {
 }
 
 .postlisttitle {
-  width:57%;
+  padding-top: 1%;
   display:inline-block;
-  padding:1%;
   margin:0%;
 }
 
 .postlistdate {
-  width: 13%;
-  display:inline-block;
-  padding:1%;
-  padding-left:45%;
+  float: right;
+  display: block;
 }
 
 .postlistuser {
-  width:38%;
   display:inline-block;
-  padding:1%;
 }
 
 /* The Modal (background) */
@@ -140,6 +139,7 @@ textarea {
   font-size:30px;
   padding-left:1%;
   border-bottom:1px solid #888;
+  background-color: white;
 }
 
 #backToList:hover {
@@ -147,7 +147,42 @@ textarea {
   cursor: pointer;
 }
 
-#currentPostBody {
-  padding-left:1%;
-  padding-right:1%;
+#currentpostcontainer {
+  padding: 1%;
+  padding-left:2%;
+  padding-right:2%;
+  border-bottom:1px solid #888;
+  background-color: whitesmoke;
+}
+
+#postcreatereplyarea {
+  padding-left:2%;
+  padding-right:2%;
+  height:60%;
+}
+
+#replyBody {
+  margin-left:2%;
+  border-left:1px solid #888;
+}
+
+.replylistitem {
+  padding:2%;
+  border-bottom:1px solid #888;
+  background-color: whitesmoke;
+}
+
+.replylistuser {
+  display:inline-block;
+}
+
+.replylistdate {
+  width: 13%;
+  display:inline-block;
+  padding-left:45%;
+}
+
+.replylistcontent {
+  display:block;
+  padding-top:2%;
 }

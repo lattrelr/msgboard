@@ -9,6 +9,7 @@ const port = 3000;
 
 const postsRouter = require("./routes/posts");
 const usersRouter = require("./routes/users");
+const replyRouter = require("./routes/replies");
 
 mongoose
     .connect("mongodb://127.0.0.1:27017/msgboard")
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use("/api/posts", postsRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/replies", replyRouter);
 
 app.use((req, res, next) => {
     res.send("ERROR");

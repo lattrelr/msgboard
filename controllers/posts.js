@@ -1,6 +1,7 @@
 const controller = {};
 const users = require ("./users");
 const Post = require('../models/post');
+const Reply = require('../models/reply');
 
 controller.getIndex = async (req, res) => {
     const postList = await Post.find({},{ title: 1, author: 1, date: 1 })
@@ -23,7 +24,13 @@ controller.createItem = async (req, res) => {
 
 controller.getItem = async (req, res) => {
     const post = await Post.findById(req.params.postId)
-        .populate({path: "author", select: "username"});
+        .populate([
+            {path: "author", select: "username"},
+            {path: "replies", populate:
+                {path: "author", select: "username"},
+            }
+        ]);
+    
     res.json(post);
 };
 

@@ -66,11 +66,23 @@
 <script type="vue-template" id="currentpost">
     <div>
         <div id="backToList" @click="closeCurrent">&larr;</div>
-        <span class="postlistuser">by {{ selectedPost.author.username }}</span>
-        <span class="postlistdate">on {{ selectedPost.date.slice(0, 10) }}</span>
-        <div id="currentPostBody">
+        <div id="currentpostcontainer">
+            <span class="postlistuser">by {{ selectedPost.author.username }}</span>
+            <span class="postlistdate">on {{ selectedPost.date.slice(0, 10) }}</span>
             <h2>{{ selectedPost.title }}</h2>
             <p style="white-space: pre">{{ selectedPost.content }}</p>
+        </div>
+        <div id="replyBody">
+            <div v-for="reply in selectedPost.replies" :key="reply._id" class="replylistitem" :data-post=reply._id>
+                <span class="postlistuser">reply from {{ reply.author.username }}</span>
+                <span class="postlistdate">on {{ reply.date.slice(0, 10) }}</span>
+                <span class="replylistcontent">{{ reply.content }}</span>
+            </div>
+        </div>
+        <!-- TODO display this when reply is clicked, and put under whatever you are replying to -->
+        <div id="postcreatereplyarea">
+            <textarea id="postCreateBody" v-model="form.newContent"/>
+            <button @click="submitReply">Submit</button>
         </div>
     </div>
 </script>
