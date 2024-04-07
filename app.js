@@ -1,7 +1,8 @@
 const express = require("express");
 const cookieParser = require('cookie-parser');
-//const expressValidator = require('express-validator');
-//const asyncHandler = require("express-async-handler");
+// TODO use these
+const { query, validationResult } = require('express-validator');
+const asyncHandler = require("express-async-handler");
 const app = express();
 const port = 3000;
 
