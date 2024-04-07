@@ -1,30 +1,7 @@
 const bcrypt = require ('bcrypt');
 const authjwt = require ('../middleware/authjwt');
+const User = require('../models/user');
 const controller = {};
-
-const users = [
-    {
-        id: 0,
-        name: "ryan",
-        // "password"
-        hash: "$2b$10$OmpiXmRVKEktractMoTv0uDcA1cRNog7V.LaPR2v.RFy4XSpULTA2"
-    },
-    {
-        id: 1,
-        name: "rocky",
-        // "password2",
-        hash: "$2b$10$mQr/YRnj../WYHMsQe/vvesu8gLBKIcViSdfcRQQKuZTTsVwya2ri"
-    }
-];
-
-// TODO this doesn't belong here
-controller.getUserNameById = (userId) => {
-    for(let i=0; i < users.length; i++) {
-        if (userId == users[i].id)
-            return users[i].name;
-    }
-    return "";
-}
 
 async function hashPassword(password) {
     return new Promise((resolve, reject) => {
@@ -36,24 +13,23 @@ async function hashPassword(password) {
 }
 
 controller.login = async (req, res) => {
-    for(let i=0; i < users.length; i++) {
-        if (users[i].name == req.body.username) {
-            if (bcrypt.compareSync(req.body.password, users[i].hash)) {
-                const token = authjwt.createToken(users[i].id);
+    const user = await User.findOne({username: req.body.username});
+    if (user != null) {
+        if (bcrypt.compareSync(req.body.password, user.hash)) {
+            const token = authjwt.createToken(user._id.toString());
 
-                let options = {
-                    maxAge: 60 * 60 * 1000, // would expire in 60 minutes
-                    httpOnly: true, // The cookie is only accessible by the web server
-                    // STOPSHIP FIXME: This should be true, but we are not https.
-                    secure: false,
-                    sameSite: "Strict",
-                };
-            
-                res.cookie("SessionID", token, options);
-                return res.status(200).json({
-                    username: controller.getUserNameById(users[i].id),
-                });
-            }
+            let options = {
+                maxAge: 60 * 60 * 1000, // would expire in 60 minutes
+                httpOnly: true, // The cookie is only accessible by the web server
+                // STOPSHIP FIXME: This should be true, but we are not https.
+                secure: false,
+                sameSite: "Strict",
+            };
+        
+            res.cookie("SessionID", token, options);
+            return res.status(200).json({
+                username: user.username,
+            });
         }
     }
 
@@ -65,11 +41,8 @@ controller.login = async (req, res) => {
 
 controller.signup = async (req, res) => {
     const hashedpw = await hashPassword(req.body.password);
-    users.push({
-        id: users.length,
-        name: req.body.username,
-        hash: hashedpw
-    });
+
+    await User.create({ username: req.body.username, hash: hashedpw });
 
     console.log("Created user");
 
@@ -78,10 +51,16 @@ controller.signup = async (req, res) => {
     });
 };
 
-controller.getActiveUser = (req, res) => {
-    const userName = controller.getUserNameById(req.userId);
-    return res.status(200).json({
-        username: userName
+controller.getActiveUser = async (req, res) => {
+    const user = await User.findById(req.userId);
+    if (user != null) {
+        return res.status(200).json({
+            username: user.username
+        });
+    }
+
+    return res.status(401).json({
+        message: "Invalid username or password.",
     });
 }
 

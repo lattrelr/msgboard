@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 // TODO use these
 const { query, validationResult } = require('express-validator');
 const asyncHandler = require("express-async-handler");
@@ -8,6 +9,11 @@ const port = 3000;
 
 const postsRouter = require("./routes/posts");
 const usersRouter = require("./routes/users");
+
+mongoose
+    .connect("mongodb://127.0.0.1:27017/msgboard")
+    .then(() => console.log('MongoDB database Connected...'))
+    .catch((err) => console.log(err))
 
 app.use(cookieParser());
 app.use(express.json());

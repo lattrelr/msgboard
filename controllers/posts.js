@@ -1,54 +1,30 @@
 const controller = {};
 const users = require ("./users");
+const Post = require('../models/post');
 
-let posts = [
-    {
-        id: 0,
-        title: "This is the first post",
-        content: "This is the content of the first post",
-        author: "ryan",
-        date: new Date().toISOString().slice(0, 10)
-    },
-    {
-        id: 1,
-        title: "This is the second post",
-        content: "This is the content of the second post",
-        author: "ryan",
-        date: new Date().toISOString().slice(0, 10)
-    },
-    {
-        id: 2,
-        title: "This is the third post",
-        content: "This is the content of the third post",
-        author: "ryan",
-        date: new Date().toISOString().slice(0, 10)
-    }
-];
-
-controller.getIndex = (req, res) => {
-    res.json(posts)
+controller.getIndex = async (req, res) => {
+    const postList = await Post.find({},{ title: 1, author: 1, date: 1 })
+        .populate({path: "author", select: "username"});
+    res.json(postList);
 };
 
-controller.createItem = (req, res) => {
+controller.createItem = async (req, res) => {
     // TODO make sure this content exists...
-
-    let username = users.getUserNameById(req.userId);
-
-    posts.push({
-        id: posts.length,
+    await Post.create({ 
         title: req.body.title,
         content: req.body.content,
-        author: username,
-        date: new Date().toISOString().slice(0, 10)
+        author: req.userId,
     });
 
-    // TODO how to respond to post req
-    res.send("POST");
+    return res.json({
+        message: "Post create OK"
+    });
 }
 
-controller.getItem = (req, res) => {
-    let idx = req.params.postId;
-    res.json(posts[idx]);
+controller.getItem = async (req, res) => {
+    const post = await Post.findById(req.params.postId)
+        .populate({path: "author", select: "username"});
+    res.json(post);
 };
 
 controller.updateItem = (req, res) => {

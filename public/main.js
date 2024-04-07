@@ -3,10 +3,10 @@ export const main = {
     return {
       posts: [],
       selectedPost: {
-        title: "",
-        content: "",
-        author: "",
-        date: "",
+        title: "aaa",
+        content: "bbbccc",
+        author: "ccc",
+        date: "ddd",
       },
       showModal: false,
       showCreate: false,
@@ -44,10 +44,13 @@ export const main = {
       this.showModal = false;
       this.showNewUser = false;
     },
-    selectPost(event) {
+    async selectPost(event) {
       this.showPosts = false;
-      let currentPost = this.posts[event.currentTarget.dataset.post];
-      this.selectedPost = currentPost;
+      const response = await axios.get(`api/posts/${event.currentTarget.dataset.post}`);
+      this.selectedPost.title = response.data.title;
+      this.selectedPost.content = response.data.content;
+      this.selectedPost.author = response.data.author;
+      this.selectedPost.date = response.data.date;
       this.showCurrent = true;
     },
     selectCurrent() {
