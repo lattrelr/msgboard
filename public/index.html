@@ -27,7 +27,7 @@
 
 <script type="vue-template" id="modal">
     <!-- Modal for view and create -->
-    <div id="createModal" class="modal">
+    <div class="modal">
         <div class="modal-content">
             <span class="close" @click="closeModal">&times;</span>
             <div>
@@ -38,15 +38,17 @@
 </script>
 
 <script type="vue-template" id="createpost">
-    <h2>Create new post</h2>
-    <input id="postCreateTitle" v-model="form.newTitle"/>
-    <textarea id="postCreateBody" v-model="form.newContent"/>
+    <h2>New Post</h2>
+    <span>Title<span><br/>
+    <input id="postCreateTitle" v-model="form.newTitle"/><br/>
+    <span>Message</span><br/>
+    <textarea id="postCreateBody" v-model="form.newContent"/><br/>
     <button @click="submitPost">Submit</button>
 </script>
 
 <script type="vue-template" id="signup">
-    <h2>New user</h2>
-    <span class="signupdesc">Username</span><input class="signupbox" v-model="form.username"/><br/>
+    <h2>New User</h2>
+    <span class="signupdesc">Username</span><input class="signupbox" v-model="form.username"/>
     <span class="signupdesc">Password</span><input class="signupbox" v-model="form.password"/><br/>
     <button @click="submitUser">Submit</button>
 </script>

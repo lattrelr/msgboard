@@ -86,10 +86,14 @@ body {
 .modal-content {
   background-color: #fefefe;
   margin: auto;
-  padding: 2%;
-  border: 1px solid #888;
   width: 50%;
   height: auto;
+  padding: 2%;
+  /*border-left: 5px solid lightblue;
+  border-right: 5px solid lightblue;
+  border-top:10px solid lightblue;
+  border-bottom:10px solid lightblue;*/
+  border: 10px solid lightgray;
 }
 
 /* The Close Button */
@@ -118,8 +122,8 @@ textarea {
 
 #postCreateBody {
   display:block;
-  margin-top:2%;
-  margin-bottom:2%;
+  /*margin-top:2%;
+  margin-bottom:2%;*/
   width:100%;
   height:35%;
 }
@@ -127,6 +131,8 @@ textarea {
 .signupbox {
   display:inline-block;
   margin-bottom:2%;
+  margin-right:2%;
+  width:35%;
 }
 
 .signupdesc {

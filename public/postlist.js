@@ -11,8 +11,8 @@ export const postlist = {
   },
   methods: {
     async loadPosts() {
-      const response = await axios.get('api/posts')
-      this.posts = response.data
+      const response = await axios.get('api/posts');
+      this.posts = response.data;
     },
     selectPost(event) {
       const postId = event.currentTarget.dataset.post;
